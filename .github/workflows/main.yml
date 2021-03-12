@@ -33,7 +33,7 @@ jobs:
       uses: hashicorp/vault-action@v2.1.1
       with:
         url: http://127.0.0.1:8200
-        token: ${{ secrets.VAUL_TTOKEN }}
+        token: ${{ secrets.VAULT_TOKEN }}
         namespace: admin
         tlsSkipVerify: true
         secrets: |
