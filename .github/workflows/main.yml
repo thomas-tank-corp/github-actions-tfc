@@ -1,0 +1,171 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+jobs:
+
+############ Development #############
+
+  DeployDev:
+    name: Deploy to Dev
+    if: github.event_name == 'pull_request'
+    runs-on: self-hosted
+    continue-on-error: true
+    environment:
+      name: Dev
+
+    steps:
+
+    - name: Set New Workspace Name
+      uses: lukka/set-shell-env@v1
+      with:
+        WORKSPACE: tharris-gh-demo-dev
+        ORGANIZATION: emea-se-playground-2019
+        VAULT_ADDR: http://127.0.0.1:8200
+
+
+    - name: Import Secrets
+      id: secrets
+      uses: hashicorp/vault-action@v2.1.1
+      with:
+        url: http://127.0.0.1:8200
+        token: ${{ secrets.VAUL_TTOKEN }}
+        namespace: admin
+        tlsSkipVerify: true
+        secrets: |
+              terraform/creds/actions token | TFC_TEAM_TOKEN
+
+
+    - name: Create Workspace
+      run: tecli workspace create --organization=$ORGANIZATION --name=$WORKSPACE
+      continue-on-error: true
+      env:
+         TFC_TEAM_TOKEN: ${{ steps.secrets.outputs.TFC_TEAM_TOKEN }}
+
+    - name: Set Workspace ID
+      run: |
+          echo "workspace_id=$(tecli workspace find-by-name --organization=${ORGANIZATION} --name=${WORKSPACE} | jq -r .ID )" >> $GITHUB_ENV
+
+    - name: Create Workspace Variables
+      continue-on-error: true
+      run: |
+          tecli variable create --key=VAULT_ADDR         --value=$VAULT_ADDR               --workspace-id="${{ env.workspace_id }}" --category=env       --sensitive=false
+          tecli variable create --key=VAULT_TOKEN        --value=${{ secrets.VAULT_TOKEN }} --workspace-id="${{ env.workspace_id }}" --category=env       --sensitive=true
+          tecli variable create --key=VAULT_SKIP_VERIFY  --value=true                      --workspace-id="${{ env.workspace_id }}" --category=env       --sensitive=false
+          tecli variable create --key=environment_tag    --value=dev                       --workspace-id="${{ env.workspace_id }}" --category=terraform --sensitive=false
+
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ steps.secrets.outputs.TFC_TEAM_TOKEN }}
+        terraform_wrapper: false
+
+    - name: Terraform Init
+      run: terraform init -input=false
+      env:
+        TF_WORKSPACE: "dev"
+        TF_IN_AUTOMATION: "true"
+
+    - name: Terraform Format
+      run: terraform fmt
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+      env:
+        TF_WORKSPACE: "dev"
+        TF_IN_AUTOMATION: "true"
+
+    - name: Terraform Apply
+      run: terraform apply -input=false -auto-approve
+      env:
+        TF_WORKSPACE: "dev"
+        TF_IN_AUTOMATION: "true"
+
+
+
+############ Production ###############
+
+  DeployProd:
+    name: Deploy to prod
+    if: github.event_name == 'pull_request'
+    runs-on: self-hosted
+    environment:
+      name: prod
+
+    steps:
+
+    - name: Set New Workspace Name
+      uses: lukka/set-shell-env@v1
+      with:
+        WORKSPACE: tharris-gh-demo-prod
+        ORGANIZATION: emea-se-playground-2019
+        VAULT_ADDR: http://127.0.0.1:8200
+
+    - name: Import Secrets
+      id: secrets
+      uses: hashicorp/vault-action@v2.1.1
+      with:
+        url: http://127.0.0.1:8200
+        token: ${{ secrets.VAULT_TOKEN }}
+        namespace: admin
+        tlsSkipVerify: true
+        secrets: |
+              terraform/creds/actions token | TFC_TEAM_TOKEN
+
+    - name: Create Workspace
+      run: tecli workspace create --organization=$ORGANIZATION --name=$WORKSPACE
+      continue-on-error: true
+      env:
+         TFC_TEAM_TOKEN: ${{ steps.secrets.outputs.TFC_TEAM_TOKEN }}
+
+    - name: Set Workspace ID
+      run: |
+          echo "workspace_id=$(tecli workspace find-by-name --organization=${ORGANIZATION} --name=${WORKSPACE} | jq -r .ID )" >> $GITHUB_ENV
+
+    - name: Create Workspace Variables
+      continue-on-error: true
+      run: |
+          tecli variable create --key=VAULT_ADDR         --value=$VAULT_ADDR               --workspace-id="${{ env.workspace_id }}" --category=env       --sensitive=false
+          tecli variable create --key=VAULT_TOKEN        --value=${{ secrets.VAULT_TOKEN }} --workspace-id="${{ env.workspace_id }}" --category=env       --sensitive=true
+          tecli variable create --key=VAULT_SKIP_VERIFY  --value=true                      --workspace-id="${{ env.workspace_id }}" --category=env       --sensitive=false
+          tecli variable create --key=environment_tag    --value=prod                      --workspace-id="${{ env.workspace_id }}" --category=terraform --sensitive=false
+
+
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ steps.secrets.outputs.TF_TEAM_TOKEN }}
+        terraform_wrapper: false
+
+    - name: Terraform Init
+      run: terraform init -input=false
+      env:
+        TF_WORKSPACE: "prod"
+        TF_IN_AUTOMATION: "true"
+
+    - name: Terraform Format
+      run: terraform fmt
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+      env:
+        TF_WORKSPACE: "prod"
+        TF_IN_AUTOMATION: "true"
+
+    - name: Terraform Apply
+      run: terraform apply -input=false -auto-approve
+      env:
+        TF_WORKSPACE: "prod"
+        TF_IN_AUTOMATION: "true"
