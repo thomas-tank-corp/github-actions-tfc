@@ -34,7 +34,7 @@ jobs:
       with:
         url: http://127.0.0.1:8200
         token: ${{ secrets.VAULT_TOKEN }}
-        namespace: admin
+        continue-on-error: true
         tlsSkipVerify: true
         secrets: |
               terraform/creds/actions token | TFC_TEAM_TOKEN
@@ -115,7 +115,6 @@ jobs:
       with:
         url: http://127.0.0.1:8200
         token: ${{ secrets.VAULT_TOKEN }}
-        namespace: admin
         tlsSkipVerify: true
         secrets: |
               terraform/creds/actions token | TFC_TEAM_TOKEN
