@@ -6,7 +6,7 @@ terraform {
     organization = "WPP-Lab"
 
     workspaces {
-      prefix = "app-tomh-"
+      prefix = "app-pritam-"
     }
   }
 }
