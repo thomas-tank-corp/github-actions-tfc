@@ -1,4 +1,4 @@
-#EXAMPLE code.
+#EXAMPLE code.#
 
 terraform {
   backend "remote" {
@@ -6,7 +6,7 @@ terraform {
     organization = "WPP-Lab"
 
     workspaces {
-      prefix = "app-tomh-"
+      prefix = "app-pritam-"
     }
   }
 }
