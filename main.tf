@@ -2,29 +2,25 @@
 
 terraform {
   backend "remote" {
-    hostname = "app.terraform.io"
-    organization = "emea-se-playground-2019"
+    hostname = "iacdev.wpp.cloud"
+    organization = "WPP-Lab"
+
     workspaces {
-      prefix = "tharris-gh-demo-"
+      name = "app-tomh-"
     }
   }
 }
 
-provider "vault" {}
- data "vault_generic_secret" "gcp_auth" {
- path = "gcp/key/actions-servicekey"
-}
 
 provider "google" {
-  project     = "tharris-vault-customer-pov"
+  project     = "Sandbox"
   region      = "europe-west2"
   zone        = "europe-west2a"
-  credentials = base64decode(data.vault_generic_secret.gcp_auth.data.private_key_data)
 }
 
 
 resource "google_compute_instance" "default" {
-  name         = "github-actions-${var.environment_tag}"
+  name         = "github-actions-${var.environment_tag}-${var.name}"
   machine_type = "f1-micro"
   zone         = "europe-west2-a"
 
