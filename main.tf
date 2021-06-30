@@ -22,7 +22,6 @@ provider "google" {
 resource "google_compute_instance" "default" {
   name         = "github-actions-${var.environment_tag}-${var.name}"
   machine_type = "f1-micro"
-  zone         = "europe-west2-a"
 
   tags = ["test", "git"]
 
