@@ -13,7 +13,7 @@ terraform {
 
 
 provider "google" {
-  project     = "tharris-vault-customer-pov"
+  project     = "robertscully-vault-customer-pov"
   region      = "europe-west2"
   zone        = "europe-west2-a"
 }
