@@ -15,7 +15,7 @@ terraform {
 provider "google" {
   project     = "p-ok981jlmeeipbrw66cqf47kebke5"
   region      = "europe-west2"
-  zone        = "europe-west2a"
+  zone        = "europe-west2-a"
 }
 
 
