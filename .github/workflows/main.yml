@@ -30,7 +30,7 @@ jobs:
         tlsSkipVerify: true
         namespace: admin
         secrets: |
-              tfe/data/tfe token | TFC_TEAM_TOKEN
+              kv/tfe token | TFC_TEAM_TOKEN
 
 
     - name: Checkout
@@ -87,7 +87,7 @@ jobs:
         tlsSkipVerify: true
         namespace: admin
         secrets: |
-              tfe/data/tfe token | TFC_TEAM_TOKEN
+              kv/tfe token | TFC_TEAM_TOKEN
 
 
     - name: Checkout
