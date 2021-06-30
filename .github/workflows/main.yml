@@ -41,7 +41,7 @@ jobs:
       with:
         cli_config_credentials_token: ${{ steps.secrets.outputs.TFC_TEAM_TOKEN }}
         cli_config_credentials_hostname: 'iacdev.wpp.cloud'
-        terraform_wrapper: false
+
 
     - name: Terraform Init
       run: terraform init -input=false
@@ -99,7 +99,7 @@ jobs:
       with:
         cli_config_credentials_token: ${{ steps.secrets.outputs.TF_TEAM_TOKEN }}
         cli_config_credentials_hostname: 'iacdev.wpp.cloud'
-        terraform_wrapper: false
+
 
     - name: Terraform Init
       run: terraform init -input=false
