@@ -13,7 +13,7 @@ terraform {
 
 
 provider "google" {
-  project     = "Sandbox"
+  project     = "p-ok981jlmeeipbrw66cqf47kebke5"
   region      = "europe-west2"
   zone        = "europe-west2a"
 }
