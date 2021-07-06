@@ -2,11 +2,11 @@
 
 terraform {
   backend "remote" {
-    hostname = ""
+    hostname = "app.terraform.io"
     organization = ""
 
     workspaces {
-      prefix = "app-harris-"
+      prefix = "app-tomh-"
     }
   }
 }

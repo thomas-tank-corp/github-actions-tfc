@@ -40,7 +40,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ steps.secrets.outputs.TFC_TEAM_TOKEN }}
-        cli_config_credentials_hostname: 'iacdev.wpp.cloud'
+        cli_config_credentials_hostname: 'app.terraform.io'
 
 
     - name: Terraform Init
@@ -98,7 +98,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ steps.prodsecrets.outputs.TFC_TEAM_TOKEN }}
-        cli_config_credentials_hostname: 'iacdev.wpp.cloud'
+        cli_config_credentials_hostname: 'app.terraform.io'
 
 
     - name: Terraform Init
