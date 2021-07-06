@@ -3,7 +3,7 @@
 terraform {
   backend "remote" {
     hostname = "app.terraform.io"
-    organization = ""
+    organization = "tom-se-hashi"
 
     workspaces {
       prefix = "app-tomh-"
