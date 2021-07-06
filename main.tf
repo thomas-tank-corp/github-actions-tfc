@@ -1,4 +1,4 @@
-#EXAMPLE code.#
+#EXAMPLE code#
 
 terraform {
   backend "remote" {
