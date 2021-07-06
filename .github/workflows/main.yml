@@ -71,7 +71,7 @@ jobs:
   DeployProd:
     name: Deploy to prod
     if: github.event_name == 'pull_request'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment:
       name: prod
 
@@ -79,7 +79,7 @@ jobs:
 
 
     - name: Import Secrets
-      id: secrets
+      id: prodsecrets
       uses: hashicorp/vault-action@v2.1.1
       with:
         url: https://vault-cluster.vault.3d3539c1-53f1-4599-b60f-553fee88a921.aws.hashicorp.cloud:8200/
@@ -97,7 +97,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        cli_config_credentials_token: ${{ steps.secrets.outputs.TF_TEAM_TOKEN }}
+        cli_config_credentials_token: ${{ steps.prodsecrets.outputs.TFC_TEAM_TOKEN }}
         cli_config_credentials_hostname: 'iacdev.wpp.cloud'
 
 

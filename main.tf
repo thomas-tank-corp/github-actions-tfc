@@ -1,9 +1,9 @@
-#EXAMPLE code
+#EXAMPLE code.#
 
 terraform {
   backend "remote" {
-    hostname = "iacdev.wpp.cloud"
-    organization = "WPP-Lab"
+    hostname = ""
+    organization = ""
 
     workspaces {
       prefix = "app-harris-"
