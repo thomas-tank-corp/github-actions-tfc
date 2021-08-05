@@ -21,7 +21,7 @@ provider "google" {
 
 resource "google_compute_instance" "default" {
   name         = "github-actions-${var.environment_tag}-${var.name}"
-  machine_type = "f1-micro"
+  machine_type = "n1-standard-1"
 
   tags = ["test", "git"]
 
