@@ -26,7 +26,7 @@ jobs:
       id: secrets
       uses: hashicorp/vault-action@v2.1.1
       with:
-        url: https://vault-cluster.vault.3d3539c1-53f1-4599-b60f-553fee88a921.aws.hashicorp.cloud:8200/
+        url: https://vault-cluster-workshop.vault.3d3539c1-53f1-4599-b60f-553fee88a921.aws.hashicorp.cloud:8200
         token: ${{ secrets.VAULT_TOKEN }}
         tlsSkipVerify: true
         namespace: admin
@@ -83,7 +83,7 @@ jobs:
       id: prodsecrets
       uses: hashicorp/vault-action@v2.1.1
       with:
-        url: https://vault-cluster.vault.3d3539c1-53f1-4599-b60f-553fee88a921.aws.hashicorp.cloud:8200/
+        url: https://vault-cluster-workshop.vault.3d3539c1-53f1-4599-b60f-553fee88a921.aws.hashicorp.cloud:8200/
         token: ${{ secrets.VAULT_TOKEN }}
         tlsSkipVerify: true
         namespace: admin
