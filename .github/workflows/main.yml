@@ -28,7 +28,6 @@ jobs:
       with:
         url: https://vault-cluster.vault.3d3539c1-53f1-4599-b60f-553fee88a921.aws.hashicorp.cloud:8200/
         token: ${{ secrets.VAULT_TOKEN }}
-        continue-on-error: true
         tlsSkipVerify: true
         namespace: admin
         secrets: |
@@ -86,7 +85,6 @@ jobs:
       with:
         url: https://vault-cluster.vault.3d3539c1-53f1-4599-b60f-553fee88a921.aws.hashicorp.cloud:8200/
         token: ${{ secrets.VAULT_TOKEN }}
-        continue-on-error: true
         tlsSkipVerify: true
         namespace: admin
         secrets: |
