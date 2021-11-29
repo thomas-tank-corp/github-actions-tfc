@@ -60,7 +60,7 @@ jobs:
         TF_IN_AUTOMATION: "true"
 
     - name: Terraform Apply
-      run: terraform apply -input=false -auto-approve
+      run: terraform apply -input=false
       env:
         TF_WORKSPACE: "dev"
         TF_IN_AUTOMATION: "true"
